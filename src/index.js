@@ -173,13 +173,16 @@ export default class ImageTransformer extends React.Component {
         if (!image) {
             return;
         }
-
-        const uri = image.source && image.source.uri
+        let uri = image.source && image.source.uri
             ? image.source.uri : image.uri
             ? image.uri : image.URI
             ? image.URI : image.url
             ? image.url : image.URL
             ? image.URL : undefined;
+
+        if(image.file_url){
+            uri = image.file_url
+        }
 
         if (image.dimensions && image.dimensions.width && image.dimensions.height) {
             this._mounted && this.setState({
@@ -197,7 +200,7 @@ export default class ImageTransformer extends React.Component {
             });
             return;
         }
-
+        
         if (uri) {
             Image.getSize(
                 uri,
@@ -320,12 +323,11 @@ export default class ImageTransformer extends React.Component {
          if(injectComponent){
              content = injectComponent(imageProps)
          }
-            
         return (
             <ViewTransformer
                  ref={(component) => (this.viewTransformer = component)}
                 key={"viewTransformer#" + keyAccumulator}
-                disable transform until image is loaded
+                // disable transform until image is loaded
                 enableTransform={enableTransform && imageLoaded}
                 enableScale={enableScale}
                 enableTranslate={enableTranslate}
