@@ -219,7 +219,7 @@ export default class ImageTransformer extends React.Component {
                         }
                     }
                 },
-                () => {
+                (error) => {
                     this._mounted && this.setState({ error: true });
                 }
             );
